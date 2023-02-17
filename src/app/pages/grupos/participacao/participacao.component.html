@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xxxl-3 col-md-6">
+    <h1>Grupos</h1>
+  </div>
+</div>
+<div class="row" [nbSpinner]="loading">
+  <div class="col-12">
+    <nb-card>
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="Suas Participações">
+          <form class="form-horizontal">
+            <div class="row">
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <hr>
+                <h4>Resultados</h4>
+              </div>
+              <div *ngIf="active === false" class="col-12">
+                <h5>Você não está participando de nenhum grupo cadastrado!</h5>
+              </div>
+              <div *ngIf="active === true" class="col-12">
+                <nb-card class="bg-light">
+                  <nb-card-body class="d-flex flex-wrap">
+                    <div class="col-6" *ngFor="let grupo of grupos | paginate: { itemsPerPage: contador, currentPage: pag }">
+                      <nb-card class="bg-light">
+                        <nb-card-body class="d-flex flex-wrap">
+                          <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                              <strong>{{ grupo?.titulo }}</strong>
+                              <nb-icon icon="more-horizontal-outline" pack="eva" (click)="openDetalheGrupo(grupo?.id)"></nb-icon>
+                            </div>
+                            <p>
+                              <span>Tipo do Grupo: {{ grupo?.tipo }}</span><br>
+                              <span>Localização do Grupo: {{ grupo?.localizacao }}</span><br>
+                              <span>Criador do Grupo: {{ grupo?.criador.nome ?? '-' }}</span>
+                            </p>
+                          </div>
+                        </nb-card-body>
+                      </nb-card>
+                    </div>
+                    <div class="col-12 text-right">
+                      <pagination-controls (pageChange)="pag = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+                    </div>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+          </form>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

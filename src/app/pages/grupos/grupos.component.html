@@ -1,0 +1,224 @@
+<div class="row">
+  <div class="col-xxxl-3 col-md-6">
+    <h1>Grupos de Trabalho</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="Criação de grupos de trabalho">
+          <form class="form-horizontal" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-12 d-flex flex-wrap">
+                <p class="">
+                  Um grupo de trabalho se refere a um conjunto de pessoas reunidas, que possuem determinadas competências e
+                  habilidades e compartilham o mesmo ambiente de trabalho.
+                </p>
+                <div class="row col-md-12">
+                  <div class="col-md-4">
+                    <label for="area" class="label">Tipos do Grupo*</label>
+                      <nb-select fullWidth selected="" placeholder="Área"  (selectedChange)="tipoDeGrupo($event)">
+                        <nb-option *ngFor="let grupos of tipos" [value]="grupos">{{ grupos }}</nb-option>
+                      </nb-select>
+                  </div>
+                  <div class="col-md-8">
+                    <label for="descricao" class="label">Descrição:</label>
+                      <p *ngIf="selecTipos==null">Aqui será exibido o detalhamento do tipo de grupo na qual vocês escolheu.</p>
+                      <p *ngIf="selecTipos==1">Grupo de servidores encarregados de tratar determinado assunto. </p>
+                      <p *ngIf="selecTipos==2">Grupo de servidores com poderes deliberativos ou executivos, com força para tomar decisões em nome dos demais.</p>
+                      <p *ngIf="selecTipos==3">Grupo de diversas pessoas que têm um objetivo em comum que é aprender mais sobre um determinado tema/disciplina.</p>
+                      <p *ngIf="selecTipos==4">Grupo responsável para armazenar informações de eventos/acontecimentos.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ***COMISSÃO*** -->
+            <div *ngIf="selecTipos==1" class="row">
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col-8 form-group">
+                <label class="label">Título da comissão*</label>
+                <input [status]="formulario.controls['titulo'].dirty ? (formulario.controls['titulo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="titulo" placeholder="Título da comissão">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Tipo da Comissão*</label>
+                <input [status]="formulario.controls['tipo_grupo_criado'].dirty ? (formulario.controls['tipo_grupo_criado'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="tipo_grupo_criado" placeholder="Tipo">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Localização*</label>
+                <input [status]="formulario.controls['localizacao'].dirty ? (formulario.controls['localizacao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="localizacao" placeholder="Localização">
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Descrição*</label>
+                <textarea rows="5" [status]="formulario.controls['descricao'].dirty ? (formulario.controls['descricao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="descricao" placeholder="Descrição"></textarea>
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Objetivo*</label>
+                <textarea rows="5" [status]="formulario.controls['objetivo_grupo'].dirty ? (formulario.controls['objetivo_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="objetivo_grupo" placeholder="Objetivo"></textarea>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Inicio*</label>
+                <input type="date" [status]="formulario.controls['data_inicio'].dirty ? (formulario.controls['data_inicio'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_inicio" placeholder="Data Inicio">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Fim*</label>
+                <input type="date" [status]="formulario.controls['data_fim'].dirty ? (formulario.controls['data_fim'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_fim" placeholder="Data Fim">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Portarias*</label>
+                <input [status]="formulario.controls['portaria_grupo'].dirty ? (formulario.controls['portaria_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="portaria_grupo" placeholder="Portarias">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Ações tomadas*</label>
+                <input [status]="formulario.controls['acoes_grupo'].dirty ? (formulario.controls['acoes_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="acoes_grupo" placeholder="Ações tomadas">
+              </div>
+              <div class="col-4 form-group">
+                <label for="documento" class="label">Membros*</label>
+                <nb-select (selectedChange)= "membros($event)" fullWidth multiple placeholder="Membros">
+                  <nb-option *ngFor="let pessoasList of pessoas" [value]="pessoasList">{{ pessoasList.nome }}</nb-option>
+                </nb-select>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Anotações*</label>
+                <input [status]="formulario.controls['anotacoes_grupo'].dirty ? (formulario.controls['anotacoes_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="anotacoes_grupo" placeholder="Outros">
+              </div>
+            </div>
+            <!-- ***COMITÊ*** -->
+            <div *ngIf="selecTipos==2" class="row">
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col-8 form-group">
+                <label class="label">Título do comitê*</label>
+                <input [status]="formulario.controls['titulo'].dirty ? (formulario.controls['titulo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="titulo" placeholder="Título do comitê">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Tipo do comitê*</label>
+                <input [status]="formulario.controls['tipo_grupo_criado'].dirty ? (formulario.controls['tipo_grupo_criado'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="tipo_grupo_criado" placeholder="Tipo">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Localização*</label>
+                <input [status]="formulario.controls['localizacao'].dirty ? (formulario.controls['localizacao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="localizacao" placeholder="Localização">
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Descrição*</label>
+                <textarea rows="5" [status]="formulario.controls['descricao'].dirty ? (formulario.controls['descricao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="descricao" placeholder="Descrição"></textarea>
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Objetivo*</label>
+                <textarea rows="5" [status]="formulario.controls['objetivo_grupo'].dirty ? (formulario.controls['objetivo_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="objetivo_grupo" placeholder="Objetivo"></textarea>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Inicio*</label>
+                <input type="date" [status]="formulario.controls['data_inicio'].dirty ? (formulario.controls['data_inicio'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_inicio" placeholder="Data Inicio">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Fim*</label>
+                <input type="date" [status]="formulario.controls['data_fim'].dirty ? (formulario.controls['data_fim'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_fim" placeholder="Data Fim">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Portarias*</label>
+                <input [status]="formulario.controls['portaria_grupo'].dirty ? (formulario.controls['portaria_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="portaria_grupo" placeholder="Portarias">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Ações tomadas*</label>
+                <input [status]="formulario.controls['acoes_grupo'].dirty ? (formulario.controls['acoes_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="acoes_grupo" placeholder="Ações tomadas">
+              </div>
+              <div class="col-4 form-group">
+                <label for="documento" class="label">Membros*</label>
+                <nb-select (selectedChange)= "membros($event)" fullWidth multiple placeholder="Membros">
+                  <nb-option *ngFor="let pessoasList of pessoas" [value]="pessoasList">{{ pessoasList.nome }}</nb-option>
+                </nb-select>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Anotações*</label>
+                <input [status]="formulario.controls['anotacoes_grupo'].dirty ? (formulario.controls['anotacoes_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="anotacoes_grupo" placeholder="Outros">
+              </div>
+            </div>
+            <!-- ***ESTUDOS*** -->
+            <div *ngIf="selecTipos==3" class="row">
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col-8 form-group">
+                <label class="label">Título do Grupo*</label>
+                <input [status]="formulario.controls['titulo'].dirty ? (formulario.controls['titulo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="titulo" placeholder="Título do Grupo">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Disciplina*</label>
+                <input [status]="formulario.controls['disciplina_grupo'].dirty ? (formulario.controls['disciplina_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="disciplina_grupo" placeholder="Disciplina">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Localização*</label>
+                <input [status]="formulario.controls['localizacao'].dirty ? (formulario.controls['localizacao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="localizacao" placeholder="Localização">
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Descrição*</label>
+                <textarea rows="5" [status]="formulario.controls['descricao'].dirty ? (formulario.controls['descricao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="descricao" placeholder="Descrição"></textarea>
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Objetivo*</label>
+                <textarea rows="5" [status]="formulario.controls['objetivo_grupo'].dirty ? (formulario.controls['objetivo_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="objetivo_grupo" placeholder="Objetivo"></textarea>
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Data Inicio*</label>
+                <input type="date" [status]="formulario.controls['data_inicio'].dirty ? (formulario.controls['data_inicio'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_inicio" placeholder="Data Inicio">
+              </div>
+              <div class="col-2 form-group">
+                <label class="label">Data Fim*</label>
+                <input type="date" [status]="formulario.controls['data_fim'].dirty ? (formulario.controls['data_fim'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_fim" placeholder="Data Fim">
+              </div>
+              <div class="col-4 form-group">
+                <label for="documento" class="label">Membros*</label>
+                <nb-select (selectedChange)= "membros($event)" fullWidth multiple placeholder="Membros">
+                  <nb-option *ngFor="let pessoasList of pessoas" [value]="pessoasList">{{ pessoasList.nome }}</nb-option>
+                </nb-select>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Anotações*</label>
+                <input [status]="formulario.controls['anotacoes_grupo'].dirty ? (formulario.controls['anotacoes_grupo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="anotacoes_grupo" placeholder="Outros">
+              </div>
+            </div>
+            <!-- ***Geral*** -->
+            <div *ngIf="selecTipos==4" class="row">
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col-8 form-group">
+                <label class="label">Título do Grupo*</label>
+                <input [status]="formulario.controls['titulo'].dirty ? (formulario.controls['titulo'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="titulo" placeholder="Título do Grupo*">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Localização*</label>
+                <input [status]="formulario.controls['localizacao'].dirty ? (formulario.controls['localizacao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="localizacao" placeholder="Localização">
+              </div>
+              <div class="col-12 form-group">
+                <label class="label">Descrição/Objetivos*</label>
+                <textarea rows="5" [status]="formulario.controls['descricao'].dirty ? (formulario.controls['descricao'].invalid  ? 'danger' : 'success') : 'basic'" type="text" nbInput fullWidth formControlName="descricao" placeholder="Descrição"></textarea>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Inicio*</label>
+                <input type="date" [status]="formulario.controls['data_inicio'].dirty ? (formulario.controls['data_inicio'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_inicio" placeholder="Data Inicio">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label">Data Fim*</label>
+                <input type="date" [status]="formulario.controls['data_fim'].dirty ? (formulario.controls['data_fim'].invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth formControlName="data_fim" placeholder="Data Fim">
+              </div>
+              <div class="col-4 form-group">
+                <label for="documento" class="label">Membros*</label>
+                <nb-select (selectedChange)= "membros($event)" fullWidth multiple placeholder="Membros">
+                  <nb-option *ngFor="let pessoasList of pessoas" [value]="pessoasList">{{ pessoasList.nome }}</nb-option>
+                </nb-select>
+              </div>
+            </div>
+            <div *ngIf="selecTipos!== undefined" class="col-12 d-flex justify-content-end">
+              <button type="submit" nbButton status="primary" [disabled]="!formulario.valid">Salvar</button>
+            </div>
+          </form>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

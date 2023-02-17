@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-xxxl-3 col-md-6">
+    <h1>Dashboard</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <nb-card class="solar-card">
+      <nb-card-header>Resumo</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="options" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-6">
+    <nb-card class="bg-light">
+      <nb-card-body class="d-flex flex-wrap">
+        <form class="col-12 form-horizontal" (ngSubmit)="buscarGrupos(f)" #f="ngForm">
+          <div class="col-12 form-group">
+            <label class="label">Buscar grupos por pessoas*</label>
+            <input type="text" nbInput fullWidth [(ngModel)]="pessoa.nome" #nome="ngModel" name="nome" id="nome" placeholder="Nome">
+          </div>
+          <div class="col-12 d-flex justify-content-end">
+            <button type="submit" nbButton status="primary">Buscar</button>
+          </div>
+        </form>
+        <div class="col-12">
+          <hr>
+        </div>
+        <div  class="col-12" *ngIf="activePagination === true">
+          <div class="col-12" *ngFor="let grupo of grupos | paginate: { itemsPerPage: contador, currentPage: pag }">
+            <nb-card class="bg-light">
+              <nb-card-body class="d-flex flex-wrap">
+                <div class="col-12">
+                  <div class="d-flex justify-content-between">
+                    <strong>{{ grupo?.titulo }}</strong>
+                    <nb-icon icon="more-horizontal-outline" pack="eva" (click)="openDetalheGrupo(grupo?.id)"></nb-icon>
+                  </div>
+                  <p>
+                    <span>Tipo do Grupo: {{ grupo?.tipo }}</span><br>
+                    <span>Localização do Grupo: {{ grupo?.localizacao }}</span><br>
+                    <span>Criador do Grupo: {{ grupo?.criador.nome ?? '-' }}</span>
+                  </p>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <div class="col-12 text-right">
+            <pagination-controls (pageChange)="pag = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

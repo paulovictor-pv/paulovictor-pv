@@ -1,0 +1,122 @@
+<div class="d-flex mb-5">
+  <div class="col-6">
+    <img src="assets/images/trf5.png" class="img-fluid">
+  </div>
+  <div class="col-6">
+    <img src="assets/images/logo_texto.png" class="img-fluid">
+  </div>
+</div>
+
+<h4 id="title" class="title">Registro</h4>
+
+<form (ngSubmit)="teste()" #form="ngForm" aria-labelledby="title">
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">Nome:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.nome"
+           #nome="ngModel"
+           name="nome"
+           id="input-nome"
+           placeholder="Nome"
+           autofocus
+           [status]="nome.dirty ? (nome.invalid  ? 'danger' : 'success') : 'basic'">
+    <ng-container *ngIf="nome.invalid && nome.touched">
+      <p class="caption status-danger" *ngIf="nome.errors?.required">
+        Digite seu Nome!
+      </p>
+      <p class="caption status-danger" *ngIf="nome.errors?.pattern">
+        O nome deve ser o verdadeiro!
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">CPF:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.cpf"
+           #cpf="ngModel"
+           name="cpf"
+           id="input-cpf"
+           placeholder="CPF"
+           autofocus
+           [status]="cpf.dirty ? (cpf.invalid  ? 'danger' : 'success') : 'basic'">
+    <ng-container *ngIf="cpf.invalid && cpf.touched">
+      <p class="caption status-danger" *ngIf="cpf.errors?.required">
+        Digite seu CPF!
+      </p>
+      <p class="caption status-danger" *ngIf="cpf.errors?.pattern">
+        O CPF deve ser o verdadeiro!
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">Telefone:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.telefone"
+           #telefone="ngModel"
+           name="telefone"
+           id="input-telefone"
+           placeholder="Telefone"
+           autofocus
+           [status]="telefone.dirty ? (telefone.invalid  ? 'danger' : 'success') : 'basic'">
+    <ng-container *ngIf="telefone.invalid && telefone.touched">
+      <p class="caption status-danger" *ngIf="telefone.errors?.required">
+        Digite seu telefone!
+      </p>
+      <p class="caption status-danger" *ngIf="telefone.errors?.pattern">
+        O telefone deve ser o verdadeiro!
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">Email:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.email"
+           #email="ngModel"
+           name="email"
+           id="input-email"
+           pattern=".+@.+\..+"
+           placeholder="Email"
+           autofocus
+           [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+           [required]="getConfigValue('forms.validation.email.required')"
+           [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+    <ng-container *ngIf="email.invalid && email.touched">
+      <p class="caption status-danger" *ngIf="email.errors?.required">
+        Digite seu Email!
+      </p>
+      <p class="caption status-danger" *ngIf="email.errors?.pattern">
+        O e-mail deve ser o verdadeiro!
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-password">Senha:</label>
+    <input nbInput
+           fullWidth
+           name="password"
+           type="password"
+           id="input-password"
+           placeholder="Senha">
+  </div>
+
+  <div class="form-control-group accept-group d-flex justify-content-end">
+      <a routerLink="/auth/login">Voltar</a>
+  </div>
+
+  <button nbButton
+          fullWidth
+          status="success"
+          [disabled]="submitted || !form.valid"
+          [class.btn-pulse]="submitted">
+    Registrar
+  </button>
+</form>
