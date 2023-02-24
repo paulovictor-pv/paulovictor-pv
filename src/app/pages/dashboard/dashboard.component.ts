@@ -102,12 +102,19 @@ export class DashboardComponent implements OnDestroy {
           this.activePagination = true;
         }
       }
+      if(this.activePagination == false){
+        this.toastrService.show(
+          'A Pessoa não está em grupo!',
+          'Não encontrado!',
+          {status: 'warning'});
+      }
+
     }
 
     if(id === null || id === undefined){
       this.activePagination = false;
       this.toastrService.show(
-        'Pessoa não é membro de grupo!',
+        'Pessoa não é membro de grupo ou não existe!',
         'Não encontrado!',
         {status: 'warning'});
     }
