@@ -38,7 +38,7 @@ export class GruposComponent implements OnInit{
   ) {
   }
 
-  tipos: Array<string> = ["Comissão","Comitê","Estudos","Geral"];
+  tipos: Array<string> = ["Selecionar","Comissão","Comitê","Estudos","Geral"];
   selecTipos: number;
   formulario: FormGroup;
   grupo = {} as Grupo;
@@ -79,16 +79,15 @@ export class GruposComponent implements OnInit{
             'Comissão Registrada!',
             'Sucesso!',
             {status: 'success'});
+            this.formulario.reset();
+            this.selecTipos = 0;
+            this.pessoaMembro = [];
         },(err) => {
               this.toastrService.show(
                 'Problema ao registrar Comissão!',
                 'Ops!',
                 {status: 'danger'});
         });
-
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
       }
 
       if(this.formulario.controls['tipo_grupo'].value === "Comitê"){
@@ -106,16 +105,15 @@ export class GruposComponent implements OnInit{
             'Comitê Registrado!',
             'Sucesso!',
             {status: 'success'});
+            this.formulario.reset();
+            this.selecTipos = 0;
+            this.pessoaMembro = [];
         },(err) => {
           this.toastrService.show(
             'Problema ao registrar Comitê!',
             'Ops!',
             {status: 'danger'});
         });
-
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
       }
 
       if(this.formulario.controls['tipo_grupo'].value === "Estudos"){
@@ -130,16 +128,15 @@ export class GruposComponent implements OnInit{
             'Grupo de estudos Registrado!',
             'Sucesso!',
             {status: 'success'});
+            this.formulario.reset();
+            this.selecTipos = 0;
+            this.pessoaMembro = [];
         },(err) => {
           this.toastrService.show(
             'Problema ao registrar Grupo de estudos!',
             'Ops!',
             {status: 'danger'});
         });
-
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
       }
 
       if(this.formulario.controls['tipo_grupo'].value === "Geral"){
@@ -152,16 +149,15 @@ export class GruposComponent implements OnInit{
             'Grupo geral Registrado!',
             'Sucesso!',
             {status: 'success'});
+            this.formulario.reset();
+            this.selecTipos = 0;
+            this.pessoaMembro = [];
         },(err) => {
           this.toastrService.show(
             'Problema ao registrar Grupo geral!',
             'Ops!',
             {status: 'danger'});
         });
-
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
       }
 
       this.membro.dataEntrada = this.formulario.controls['data_inicio'].value;

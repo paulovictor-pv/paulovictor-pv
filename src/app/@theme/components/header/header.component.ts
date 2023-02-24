@@ -1,3 +1,4 @@
+import { Utils } from './../../../pages/miscellaneous/Utils/utils';
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { NB_WINDOW, NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import * as $ from 'jquery';
@@ -7,7 +8,6 @@ import { LayoutService } from '../../../@core/utils';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Utils } from '../../../pages/miscellaneous/Utils/utils';
 
 @Component({
   selector: 'ngx-header',
@@ -48,10 +48,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.pessoa);
+      .subscribe((users: any) => {
+        const util = Utils.getSessionPessoa();
+          if(util.nome !== users.pessoa.name){
+           const att = {name:util.nome , tittle:util.nome}
+           this.user= att;
+          }else{
+           this.user = users.pessoa
+          }
+      });
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -75,7 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe(($event) => {
         if ($event === 'Deslogar') {
-          this.deslogar();
+          sessionStorage.clear();
           this.router.navigate(['/']);
         }
         if($event === 'Editar Perfil'){
@@ -129,12 +136,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     $(".ng-star-inserted").animate({'font-size' : newSize + 'px'});
     $("h1").animate({'font-size' : newSizeH1 + 'px'});
     $("h4").animate({'font-size' : newSizeH4 + 'px'});
-  }
-
-  deslogar(){
-    sessionStorage.clear();
-    setTimeout(function () {
-      window.location.reload();
-    }, 100);
   }
 }

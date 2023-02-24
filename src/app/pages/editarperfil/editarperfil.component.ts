@@ -44,10 +44,6 @@ export class EditarPerfilComponent implements OnInit{
         'Ops!',
         {status: 'danger'});
     });
-
-    setTimeout(function () {
-      window.location.reload();
-    }, 2000);
   }
 
   setPessoa(){

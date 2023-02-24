@@ -21,27 +21,20 @@ export class ConfiguracoesComponent{
 
   pessoa = {} as Pessoa;
 
-  criarPessoa(pessoa){
-  this.pessoaService.savePessoa(pessoa).subscribe((pessoa: Pessoa)=>{
-    this.toastrService.show(
-      'Pessoa registrada!',
-      'Sucesso!',
-      {status: 'success'});
-  },(err) => {
-    this.toastrService.show(
-      'Problema ao registrar Oportunidade!',
-      'Ops!',
-      {status: 'danger'});
-    });
-
-    setTimeout(function () {
-      window.location.reload();
-    }, 2000);
-
-  }
-
-  savePessoa(form: NgForm){
+  criarPessoa(form: NgForm){
     this.pessoa = form.value;
-    this.criarPessoa(this.pessoa);
+    this.pessoaService.savePessoa(this.pessoa).subscribe((pessoa: Pessoa)=>{
+      this.toastrService.show(
+        'Pessoa registrada!',
+        'Sucesso!',
+        {status: 'success'});
+        form.reset();
+    },(err) => {
+      this.toastrService.show(
+        'Problema ao registrar a Pessoa!',
+        'Ops!',
+        {status: 'danger'});
+      });
+
   }
 }

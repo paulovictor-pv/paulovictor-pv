@@ -1,5 +1,4 @@
 import { PessoaService } from './../../../services/pessoa.service';
-
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { NbAuthService, NbLoginComponent, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Router } from '@angular/router';
@@ -37,9 +36,6 @@ export class LoginComponent extends NbLoginComponent {
         'Usuário não encontrado na base de dados',
         'Ops!',
         {status: 'danger'});
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
     });
   }
 }
